@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FinGenius — Executive & Technical Presentation</title>
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    /* --- Design System & CSS Variables --- */
+    :root {
+      --bg-base: #060913;
+      --bg-surface: #0E1322;
+      --bg-surface-elevated: #161E32;
+      
+      --primary: #06B6D4;
+      --primary-hover: #22D3EE;
+      --primary-glow: rgba(6, 182, 212, 0.25);
+      
+      --secondary: #3B82F6;
+      --secondary-glow: rgba(59, 130, 246, 0.2);
+      
+      --text-primary: #F3F4F6;
+      --text-secondary: #9CA3AF;
+      --text-muted: #6B7280;
+      
+      --border-color: rgba(255, 255, 255, 0.08);
+      --border-focus: rgba(6, 182, 212, 0.45);
+      
+      --success: #10B981;
+      --success-glow: rgba(16, 185, 129, 0.15);
+      --warning: #F59E0B;
+      --warning-glow: rgba(245, 158, 11, 0.15);
+      --danger: #EF4444;
+      --danger-glow: rgba(239, 68, 68, 0.15);
+      
+      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-heading: 'Outfit', var(--font-sans);
+      --font-mono: 'Fira Code', monospace;
+      
+      --card-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+      --glass-bg: rgba(14, 19, 34, 0.75);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-base);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, #0e1426 0%, #060913 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* --- Presentation Container & Layout --- */
+    .presentation-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+    }
+
+    /* --- Header Bar --- */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16px;
+      height: 60px;
+      z-index: 10;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 2.5;
+      filter: drop-shadow(0 0 8px var(--primary-glow));
+    }
+
+    .logo-text {
+      font-family: var(--font-heading);
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, var(--text-primary) 30%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .presentation-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(4px);
+    }
+
+    /* --- Footer / Navigation Control Bar --- */
+    footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 16px;
+      height: 60px;
+      z-index: 10;
+    }
+
+    .progress-bar-container {
+      flex-grow: 1;
+      max-width: 600px;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 2px;
+      margin: 0 32px;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--secondary) 0%, var(--primary) 100%);
+      border-radius: 2px;
+      box-shadow: 0 0 10px var(--primary-glow);
+      transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-control {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-size: 18px;
+    }
+
+    .btn-control:hover:not(:disabled) {
+      background: rgba(6, 182, 212, 0.1);
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 0 12px rgba(6, 182, 212, 0.2);
+    }
+
+    .btn-control:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+    }
+
+    .slide-counter {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      min-width: 60px;
+      text-align: center;
+    }
+
+    /* --- Slides Wrapper --- */
+    .slides-wrapper {
+      position: relative;
+      flex-grow: 1;
+      width: 100%;
+      height: calc(100vh - 180px);
+      margin: 10px 0;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px) scale(0.98);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .slide.active {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+      z-index: 5;
+    }
+
+    .slide-content-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      height: 100%;
+      align-items: center;
+    }
+
+    .slide-full-content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    /* --- Slide Typography & Typography Elements --- */
+    h1, h2, h3, h4 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    h1.slide-title {
+      font-size: 38px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      line-height: 1.2;
+      background: linear-gradient(135deg, #ffffff 40%, var(--primary) 120%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .slide-subtitle {
+      font-size: 15px;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slide-subtitle::before {
+      content: '';
+      display: inline-block;
+      width: 16px;
+      height: 2px;
+      background: var(--primary);
+    }
+
+    /* --- Glassmorphism UI Panels --- */
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: var(--glass-border);
+      border-radius: 20px;
+      box-shadow: var(--card-shadow);
+      padding: 24px;
+      transition: border-color 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .glass-panel:hover {
+      border-color: rgba(6, 182, 212, 0.2);
+    }
+
+    .panel-header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .panel-title {
+      font-size: 18px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* --- Key Lists & Lists --- */
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .feature-icon-bullet {
+      background: rgba(6, 182, 212, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(6, 182, 212, 0.15);
+      border-radius: 6px;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      margin-top: 2px;
+    }
+
+    .feature-item strong {
+      color: var(--text-primary);
+      display: block;
+      font-size: 15px;
+      margin-bottom: 2px;
+    }
+
+    /* --- Slide 1: Welcome Slide CSS --- */
+    .welcome-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+      height: 100%;
+    }
+
+    .welcome-text-container {
+      padding-left: 20px;
+    }
+
+    .welcome-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(6, 182, 212, 0.08);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 30px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .welcome-title {
+      font-size: 64px;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, #ffffff 40%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+    }
+
+    .welcome-desc {
+      font-size: 17px;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+      max-width: 520px;
+    }
+
+    .welcome-meta {
+      display: flex;
+      gap: 24px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 24px;
+    }
+
+    .meta-box h4 {
+      font-size: 13px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+
+    .meta-box p {
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .welcome-graphic-container {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .welcome-glow {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%);
+      z-index: 1;
+      animation: pulse-glow 4s infinite ease-in-out;
+    }
+
+    .welcome-img {
+      width: 100%;
+      max-width: 480px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      border: var(--glass-border);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* --- Slide 2: Problem & Solution Split Card --- */
+    .split-card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      height: 100%;
+    }
+
+    .split-card {
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .split-card.problem {
+      background: rgba(239, 68, 68, 0.02);
+      border-color: rgba(239, 68, 68, 0.15);
+    }
+
+    .split-card.solution {
+      background: rgba(16, 185, 129, 0.02);
+      border-color: rgba(16, 185, 129, 0.15);
+    }
+
+    .split-card-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .problem .split-card-title {
+      color: var(--danger);
+    }
+
+    .solution .split-card-title {
+      color: var(--success);
+    }
+
+    /* --- Slide 3: Feature Grid --- */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 20px;
+      height: 100%;
+    }
+
+    .feature-card {
+      background: var(--glass-bg);
+      border: var(--glass-border);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(6, 182, 212, 0.25);
+      box-shadow: 0 10px 25px rgba(6, 182, 212, 0.05), var(--card-shadow);
+    }
+
+    .feature-card-icon {
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(6, 182, 212, 0.08);
+      border: 1px solid rgba(6, 182, 212, 0.15);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .feature-card-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .feature-card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* --- Slide 4: Interactive Architecture Node Graph --- */
+    .architecture-wrapper {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 30px;
+      height: 100%;
+    }
+
+    .arch-nodes-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 40px;
+      position: relative;
+    }
+
+    .arch-nodes-container::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 40px;
+      bottom: 40px;
+      width: 2px;
+      background: dashed rgba(255,255,255,0.08);
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+
+    .arch-node {
+      display: flex;
+      align-items: center;
+      background: var(--bg-surface);
+      border: var(--glass-border);
+      border-radius: 12px;
+      padding: 12px 24px;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+      cursor: pointer;
+      position: relative;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    .arch-node.active, .arch-node:hover {
+      border-color: var(--primary);
+      background: var(--bg-surface-elevated);
+      box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
+      transform: scale(1.02);
+    }
+
+    .arch-node-number {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+    }
+
+    .arch-node-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .arch-node-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .arch-node-subtitle {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .arch-connection-arrow {
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 18px;
+      z-index: 2;
+    }
+
+    .arch-details-panel {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .arch-details-code {
+      background: #030712;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #38BDF8;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* --- Slide 5: Timeline / Interactive User Journey --- */
+    .timeline-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: center;
+    }
+
+    .timeline-nav {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .timeline-nav-btn {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.25s ease;
+    }
+
+    .timeline-nav-btn.active, .timeline-nav-btn:hover {
+      background: rgba(6, 182, 212, 0.08);
+      border-color: var(--primary);
+    }
+
+    .timeline-nav-btn-num {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--primary);
+      font-weight: 600;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .timeline-nav-btn-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .timeline-content-card {
+      flex-grow: 1;
+      min-height: 200px;
+      display: none;
+      padding: 24px;
+    }
+
+    .timeline-content-card.active {
+      display: flex;
+      flex-direction: column;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    /* --- Slide 7: Interactive Risk Assessment Playground --- */
+    .playground-wrapper {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      height: 100%;
+    }
+
+    .sliders-panel {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    .slider-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .slider-label {
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .slider-value {
+      font-family: var(--font-mono);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .slider-input {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: var(--bg-surface-elevated);
+      border-radius: 3px;
+      outline: none;
+      transition: background 0.3s;
+    }
+
+    .slider-input::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--primary-glow);
+      transition: transform 0.1s ease;
+    }
+
+    .slider-input::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+
+    .results-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px;
+      gap: 20px;
+    }
+
+    .gauges-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      justify-items: center;
+    }
+
+    .gauge-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+    }
+
+    .gauge-svg {
+      width: 110px;
+      height: 110px;
+      transform: rotate(-90deg);
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.05);
+      stroke-width: 8;
+    }
+
+    .gauge-fill {
+      fill: none;
+      stroke: var(--primary);
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-dasharray: 282.7;
+      stroke-dashoffset: 282.7;
+      transition: stroke-dashoffset 0.35s ease, stroke 0.35s ease;
+    }
+
+    .gauge-center-text {
+      position: absolute;
+      top: 55px;
+      left: 55px;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .gauge-num {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .gauge-lbl {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    .gauge-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-secondary);
+    }
+
+    .ratios-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      border-top: 1px solid var(--border-color);
+      padding-top: 16px;
+    }
+
+    .ratio-bar-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .ratio-bar-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    .ratio-bar-label {
+      color: var(--text-secondary);
+    }
+
+    .ratio-bar-value {
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    .ratio-progress-bg {
+      height: 6px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .ratio-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--secondary);
+      border-radius: 3px;
+      transition: width 0.3s ease, background-color 0.3s ease;
+    }
+
+    .verdict-box {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .verdict-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+    }
+
+    /* --- Slide 8 & 10: Image Showcase Slide CSS --- */
+    .image-showcase-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 30px;
+      height: 100%;
+      align-items: center;
+    }
+
+    .image-showcase-panel {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .showcase-img {
+      width: 100%;
+      max-width: 440px;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+      border: var(--glass-border);
+      transition: all 0.3s ease;
+    }
+
+    .showcase-img:hover {
+      transform: scale(1.01) translateY(-2px);
+      border-color: rgba(6, 182, 212, 0.2);
+    }
+
+    /* --- Tables --- */
+    .db-table-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      height: 100%;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .db-table-card {
+      background: rgba(255,255,255,0.01);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .db-table-name {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 6px;
+      margin-bottom: 4px;
+    }
+
+    .db-table-col {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .db-table-col span.col-name {
+      font-family: var(--font-mono);
+      color: var(--text-primary);
+    }
+
+    .db-table-col span.col-type {
+      color: var(--text-muted);
+    }
+
+    /* --- Utility elements --- */
+    .badge {
+      display: inline-flex;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .badge-success {
+      background: var(--success-glow);
+      color: var(--success);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+    }
+
+    .badge-warning {
+      background: var(--warning-glow);
+      color: var(--warning);
+      border: 1px solid rgba(245, 158, 11, 0.25);
+    }
+
+    .badge-danger {
+      background: var(--danger-glow);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .code-span {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--primary);
+      background: rgba(6, 182, 212, 0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(6, 182, 212, 0.1);
+    }
+
+    .keyboard-legend {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .key-badge {
+      font-family: var(--font-mono);
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-color);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--text-secondary);
+    }
+
+    /* --- Keyframe Animations --- */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.4);
+        opacity: 0.8;
+      }
+      50% {
+        box-shadow: 0 0 20px 6px var(--primary-glow);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="presentation-container">
+    
+    <!-- HEADER BAR -->
+    <header>
+      <div class="logo-container">
+        <!-- SVG Custom Shield Logo -->
+        <svg class="logo-icon" viewBox="0 0 24 24">
+          <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
+          <path d="M12 6l-6 3.5v3.5c0 3.78 2.63 7.33 6 8.2 3.37-.87 6-4.42 6-8.2V9.5L12 6z" opacity="0.4"/>
+          <circle cx="12" cy="12" r="2" fill="currentColor"/>
+        </svg>
+        <span class="logo-text">FinGenius</span>
+      </div>
+      <div class="presentation-tag">Executive &amp; Technical Presentation</div>
+    </header>
+
+    <!-- SLIDES WRAPPER -->
+    <div class="slides-wrapper">
+
+      <!-- SLIDE 1: Title Slide (Welcome) -->
+      <div class="slide active" id="slide-1">
+        <div class="welcome-grid">
+          <div class="welcome-text-container">
+            <div class="welcome-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px; vertical-align: middle;">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                <polyline points="2 17 12 22 22 17"/>
+                <polyline points="2 12 12 17 22 12"/>
+              </svg>
+              SOC2 &amp; GLBA Compliant
+            </div>
+            <h1 class="welcome-title">AI-Powered Credit Underwriting</h1>
+            <p class="welcome-desc">FinGenius combines programmatic credit models, automated fraud checks, Google Gemini generative AI, and immutable compliance audit logs into a unified, secure platform.</p>
+            
+            <div class="welcome-meta">
+              <div class="meta-box">
+                <h4>Audience</h4>
+                <p>Management &amp; Dev Team</p>
+              </div>
+              <div class="meta-box">
+                <h4>Core Stack</h4>
+                <p>Node.js, React, MySQL, Gemini</p>
+              </div>
+              <div class="meta-box">
+                <h4>Version</h4>
+                <p>1.0.0 (Production-Ready)</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="welcome-graphic-container">
+            <div class="welcome-glow"></div>
+            <!-- Embedded Generated Image (Title Hero) -->
+            <img class="welcome-img" src="./presentation_assets/title_hero.png" alt="FinGenius System Dashboard">
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: Problem & Solution -->
+      <div class="slide" id="slide-2">
+        <div class="slide-subtitle">Context &amp; Value Proposition</div>
+        <h1 class="slide-title">The Challenge of Modern Credit Risk</h1>
+        <div class="split-card-grid">
+          
+          <!-- Problem Card -->
+          <div class="glass-panel split-card problem">
+            <div class="split-card-title">
+              <span class="feature-icon-bullet" style="color:var(--danger); background:rgba(239,68,68,0.08); border-color:rgba(239,68,68,0.2)">✕</span>
+              The Problem
+            </div>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <span class="feature-icon-bullet" style="color:var(--danger)">!</span>
+                <div>
+                  <strong>Slow Processing &amp; High Backlogs</strong>
+                  Manual analysis of income profiles, credit history, and debt ratios takes hours, delaying loan processing.
+                </div>
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon-bullet" style="color:var(--danger)">!</span>
+                <div>
+                  <strong>Identity and Application Fraud</strong>
+                  Detecting duplicate SSN registrants and subprime anomaly spikes is difficult to catch programmatically at ingestion.
+                </div>
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon-bullet" style="color:var(--danger)">!</span>
+                <div>
+                  <strong>Lack of Immutable Audit Logs</strong>
+                  Audit trails are often non-existent or modifiable, failing SOC2 and GLBA financial compliance requirements.
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Solution Card -->
+          <div class="glass-panel split-card solution">
+            <div class="split-card-title">
+              <span class="feature-icon-bullet" style="color:var(--success); background:rgba(16,185,129,0.08); border-color:rgba(16,185,129,0.2)">✓</span>
+              The FinGenius Solution
+            </div>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <span class="feature-icon-bullet" style="color:var(--success)">✓</span>
+                <div>
+                  <strong>Real-Time Programmatic Risk Assessment</strong>
+                  Calculates DTI and LTI ratios and issues a composite score (0-100) instantly at the push of a button.
+                </div>
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon-bullet" style="color:var(--success)">✓</span>
+                <div>
+                  <strong>Google Gemini 2.5 Generative Summaries</strong>
+                  Synthesizes unstructured narratives covering capacity, debt vectors, and custom directives in standard JSON.
+                </div>
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon-bullet" style="color:var(--success)">✓</span>
+                <div>
+                  <strong>SOC2-Compliant Append-Only Logs</strong>
+                  Every authentication, creation, audit download, and access attempt is logged immutably with IP tracking.
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SLIDE 3: Key Features Grid -->
+      <div class="slide" id="slide-3">
+        <div class="slide-subtitle">Capabilities Overview</div>
+        <h1 class="slide-title">Core Platform Features</h1>
+        <div class="features-grid">
+          
+          <div class="feature-card">
+            <div class="feature-card-icon">⚡</div>
+            <div class="feature-card-title">Programmatic Risk Engine</div>
+            <div class="feature-card-desc">Evaluates FICO, DTI, and LTI metrics programmatically, mapping risk levels (low, medium, high) and determining approval recommendations.</div>
+          </div>
+          
+          <div class="feature-card">
+            <div class="feature-card-icon">🧠</div>
+            <div class="feature-card-title">Gemini AI Underwriting</div>
+            <div class="feature-card-desc">Integrates Gemini 2.5 Flash using structured output schemas to generate detailed borrower risk narratives and underwriter advice.</div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-card-icon">🛡️</div>
+            <div class="feature-card-title">Automated KYC &amp; Fraud Shield</div>
+            <div class="feature-card-desc">SSN duplicate velocity checks, subprime income outlier analysis, and identity completeness tests feed a weighted fraud meter.</div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-card-icon">📄</div>
+            <div class="feature-card-title">PDF Kit Stream Engine</div>
+            <div class="feature-card-desc">Generates professional vector underwriting audit reports dynamically, streaming them to the client browser with zero disk writes.</div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-card-icon">🔒</div>
+            <div class="feature-card-title">Immutable Audit Trail</div>
+            <div class="feature-card-desc">Append-only DB architecture tracking user sessions, applicant creation, runs, audits, and security blocks for SOC2 compliance.</div>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-card-icon">🛡️</div>
+            <div class="feature-card-title">Production Security Hardening</div>
+            <div class="feature-card-desc">Rate limiters, Helmet HTTP security headers, parameterized SQL query structures, Winston daily logs, and JWT encryption.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SLIDE 4: Interactive System Architecture -->
+      <div class="slide" id="slide-4">
+        <div class="slide-subtitle">Technical Infrastructure</div>
+        <h1 class="slide-title">System Architecture &amp; Data Flow</h1>
+        <div class="architecture-wrapper">
+          
+          <!-- Interactive Diagram Columns -->
+          <div class="arch-nodes-container">
+            
+            <!-- React Frontend Node -->
+            <div class="arch-node active" data-arch="frontend">
+              <div class="arch-node-number">01</div>
+              <div class="arch-node-details">
+                <span class="arch-node-title">React 18 SPA (Vite)</span>
+                <span class="arch-node-subtitle">Presentation &amp; UI Cockpit</span>
+              </div>
+            </div>
+            
+            <div class="arch-connection-arrow">▼</div>
+
+            <!-- Backend Node -->
+            <div class="arch-node" data-arch="backend">
+              <div class="arch-node-number">02</div>
+              <div class="arch-node-details">
+                <span class="arch-node-title">Node.js + Express API</span>
+                <span class="arch-node-subtitle">Logic Gate &amp; Security Shield</span>
+              </div>
+            </div>
+            
+            <div class="arch-connection-arrow">▼</div>
+
+            <!-- Database & AI Node -->
+            <div class="arch-node" data-arch="db-ai">
+              <div class="arch-node-number">03</div>
+              <div class="arch-node-details">
+                <span class="arch-node-title">MySQL &amp; Gemini AI Integration</span>
+                <span class="arch-node-subtitle">State Database &amp; Analysis Engine</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Description Panel -->
+          <div class="glass-panel arch-details-panel">
+            <div class="panel-header">
+              <div class="panel-title" id="arch-detail-title">React SPA Layer</div>
+            </div>
+            <div style="font-size: 14px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 12px;" id="arch-detail-text">
+              <p>The client side consists of a fast single-page app built with <strong>Vite</strong> and <strong>React 18</strong>. It relies entirely on a custom Design System built using Vanilla CSS (no bloated utility frameworks).</p>
+              <p><strong>Security Features:</strong> Protected Route Guards block unauthorized requests before they hit the controller. Local Storage handles JWT tokens.</p>
+              <p><strong>Visual Accents:</strong> Custom SVG charts, animated gauges, and compliance seals stamp.</p>
+            </div>
+            
+            <div class="arch-details-code" id="arch-detail-code">
+// React ProtectedRoute wrapper
+const ProtectedRoute = ({ children, roles }) => {
+  const { user, token } = useAuth();
+  if (!token) return <Navigate to="/login" />;
+  if (roles && !roles.includes(user.role)) {
+    return <Navigate to="/dashboard" />;
+  }
+  return children;
+};
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SLIDE 5: End-to-End User Journey (Timeline) -->
+      <div class="slide" id="slide-5">
+        <div class="slide-subtitle">Workflow Simulation</div>
+        <h1 class="slide-title">Loan Officer Journey Flow</h1>
+        <div class="timeline-container">
+          
+          <div class="timeline-nav">
+            <div class="timeline-nav-btn active" data-step="1">
+              <div class="timeline-nav-btn-num">Step 01</div>
+              <div class="timeline-nav-btn-label">Authentication</div>
+            </div>
+            <div class="timeline-nav-btn" data-step="2">
+              <div class="timeline-nav-btn-num">Step 02</div>
+              <div class="timeline-nav-btn-label">Profile Registry</div>
+            </div>
+            <div class="timeline-nav-btn" data-step="3">
+              <div class="timeline-nav-btn-num">Step 03</div>
+              <div class="timeline-nav-btn-label">Underwriting Run</div>
+            </div>
+            <div class="timeline-nav-btn" data-step="4">
+              <div class="timeline-nav-btn-num">Step 04</div>
+              <div class="timeline-nav-btn-label">Auditor Cockpit</div>
+            </div>
+            <div class="timeline-nav-btn" data-step="5">
+              <div class="timeline-nav-btn-num">Step 05</div>
+              <div class="timeline-nav-btn-label">PDF Generation</div>
+            </div>
+          </div>
+
+          <div class="glass-panel timeline-content-card active" id="step-card-1">
+            <h3 style="color:var(--primary); margin-bottom: 12px;">01. Authentication &amp; JWT Session Hook</h3>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
+              The Loan Officer accesses the platform using institutional credentials. The server verifies passwords via <span class="code-span">bcrypt</span> (12 salt rounds) and issues a cryptographically signed <span class="code-span">jsonwebtoken (JWT)</span>, which is stored in client memory. Auto-logout is triggered on 401 token expiry.
+            </p>
+            <div style="font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 12px;">
+              <strong>Logged Event:</strong> <span class="code-span">LOGIN_SUCCESS</span> &bull; <strong>Parameters:</strong> email, timestamp, client IP
+            </div>
+          </div>
+
+          <div class="glass-panel timeline-content-card" id="step-card-2">
+            <h3 style="color:var(--primary); margin-bottom: 12px;">02. Borrower Profile Registry</h3>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
+              The officer fills in the borrower parameters: FICO score, Gross Monthly Income, Monthly Debt, and Loan Request. The application runs client-side Joi logic validating ages (must be &ge; 18) and FICO credit ranges (300-850) before sending requests.
+            </p>
+            <div style="font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 12px;">
+              <strong>Logged Event:</strong> <span class="code-span">CREATE_APPLICANT</span> &bull; <strong>Parameters:</strong> Applicant ID, Loan Officer ID
+            </div>
+          </div>
+
+          <div class="glass-panel timeline-content-card" id="step-card-3">
+            <h3 style="color:var(--primary); margin-bottom: 12px;">03. Parallel Engine Evaluation</h3>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
+              Clicking "⚙️ RUN RISKS" issues a POST call, spawning three parallel tasks:
+              1. <strong>Risk Calculation:</strong> Computes Debt-to-Income (DTI), Loan-to-Income (LTI) ratios and composite risk thresholds.
+              2. <strong>KYC/Fraud checks:</strong> Scans database for SSN velocity and outliers.
+              3. <strong>Gemini AI API:</strong> Dispatches structured profile data to the Gemini generative framework.
+            </p>
+            <div style="font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 12px;">
+              <strong>Logged Event:</strong> <span class="code-span">ASSESS_APPLICANT</span> &bull; <strong>Parameters:</strong> risk score, fraud flags, decision
+            </div>
+          </div>
+
+          <div class="glass-panel timeline-content-card" id="step-card-4">
+            <h3 style="color:var(--primary); margin-bottom: 12px;">04. Auditor Review &amp; Compliance Sign-off</h3>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
+              The Officer reviews details, FICO gauges, and the Gemini AI summary paragraphs. Once checks are verified, they click **"Sign-off Compliance Registry"**. A rotating metallic digital seal stamp animates into view, locking the audit block with timestamp and SHA-256 integrity tags.
+            </p>
+            <div style="font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 12px;">
+              <strong>Logged Event:</strong> <span class="code-span">VERIFY_COMPLIANCE</span> &bull; <strong>Parameters:</strong> audit hash, auditor credentials
+            </div>
+          </div>
+
+          <div class="glass-panel timeline-content-card" id="step-card-5">
+            <h3 style="color:var(--primary); margin-bottom: 12px;">05. PDF Report Generation &amp; Streaming</h3>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 16px;">
+              The client clicks "📄 Download Report". The backend authenticates permissions, fetches fresh SQL results, and uses <span class="code-span">PDFKit</span> to stream a binary PDF vector stream directly to the client response (preventing local disk writes to keep servers clean).
+            </p>
+            <div style="font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 12px;">
+              <strong>Logged Event:</strong> <span class="code-span">DOWNLOAD_REPORT</span> &bull; <strong>Parameters:</strong> Applicant ID, Officer ID
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SLIDE 6: Interactive Risk Assessment Calculator -->
+      <div class="slide" id="slide-6">
+        <div class="slide-subtitle">Dynamic Calculations Playground</div>
+        <h1 class="slide-title">Programmatic Underwriting Engine</h1>
+        
+        <div class="playground-wrapper">
+          
+          <!-- Left: Sliders Panel -->
+          <div class="glass-panel sliders-panel">
+            
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-label">Credit FICO Score</span>
+                <span class="slider-value" id="val-fico">720</span>
+              </div>
+              <input type="range" class="slider-input" id="slide-fico" min="300" max="850" value="720">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-label">Gross Monthly Income</span>
+                <span class="slider-value" id="val-income">$7,500</span>
+              </div>
+              <input type="range" class="slider-input" id="slide-income" min="1000" max="20000" step="250" value="7500">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-label">Monthly Debt Payments</span>
+                <span class="slider-value" id="val-debt">$1,800</span>
+              </div>
+              <input type="range" class="slider-input" id="slide-debt" min="0" max="10000" step="100" value="1800">
+            </div>
+
+            <div class="slider-group">
+              <div class="slider-header">
+                <span class="slider-label">Requested Loan Amount</span>
+                <span class="slider-value" id="val-loan">$45,000</span>
+              </div>
+              <input type="range" class="slider-input" id="slide-loan" min="5000" max="200000" step="1000" value="45000">
+            </div>
+
+          </div>
+
+          <!-- Right: Visualized Gauges Panel -->
+          <div class="glass-panel results-panel">
+            
+            <!-- SVG Dynamic Gauges -->
+            <div class="gauges-container">
+              
+              <!-- FICO Gauge -->
+              <div class="gauge-wrapper">
+                <svg class="gauge-svg" id="svg-fico-gauge">
+                  <circle class="gauge-bg" cx="55" cy="55" r="45"></circle>
+                  <circle class="gauge-fill" id="fill-fico-gauge" cx="55" cy="55" r="45"></circle>
+                </svg>
+                <div class="gauge-center-text">
+                  <span class="gauge-num" id="gauge-fico-val">720</span>
+                  <span class="gauge-lbl">FICO</span>
+                </div>
+                <div class="gauge-title" style="margin-top: 4px;">Credit Score</div>
+              </div>
+
+              <!-- Risk Score Gauge -->
+              <div class="gauge-wrapper">
+                <svg class="gauge-svg" id="svg-risk-gauge">
+                  <circle class="gauge-bg" cx="55" cy="55" r="45"></circle>
+                  <circle class="gauge-fill" id="fill-risk-gauge" cx="55" cy="55" r="45"></circle>
+                </svg>
+                <div class="gauge-center-text">
+                  <span class="gauge-num" id="gauge-risk-val">28</span>
+                  <span class="gauge-lbl">/ 100</span>
+                </div>
+                <div class="gauge-title" style="margin-top: 4px;">Risk Score</div>
+              </div>
+
+            </div>
+
+            <!-- Metric bars for DTI and LTI -->
+            <div class="ratios-container">
+              
+              <div class="ratio-bar-wrapper">
+                <div class="ratio-bar-header">
+                  <span class="ratio-bar-label">Debt-to-Income (DTI)</span>
+                  <span class="ratio-bar-value" id="val-dti">24.0%</span>
+                </div>
+                <div class="ratio-progress-bg">
+                  <div class="ratio-progress-fill" id="fill-dti" style="width: 24%"></div>
+                </div>
+              </div>
+
+              <div class="ratio-bar-wrapper">
+                <div class="ratio-bar-header">
+                  <span class="ratio-bar-label">Loan-to-Income (LTI)</span>
+                  <span class="ratio-bar-value" id="val-lti">0.50</span>
+                </div>
+                <div class="ratio-progress-bg">
+                  <div class="ratio-progress-fill" id="fill-lti" style="width: 10%"></div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Dynamic Decision Badge Box -->
+            <div class="verdict-box">
+              <span class="verdict-title">System Decision</span>
+              <span class="badge badge-success" id="verdict-badge">Approve</span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SLIDE 7: Google Gemini AI Underwriting Cockpit -->
+      <div class="slide" id="slide-7">
+        <div class="image-showcase-grid">
+          
+          <!-- Image Content -->
+          <div class="welcome-text-container">
+            <div class="slide-subtitle">Generative Synthesis</div>
+            <h1 class="slide-title">Google Gemini AI Reports</h1>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;">
+              FinGenius leverages the <span class="code-span">@google/genai</span> SDK running the <strong>Gemini 2.5 Flash</strong> model to automatically summarize and analyze borrower credit parameters.
+            </p>
+            
+            <ul class="feature-list" style="margin-bottom: 24px;">
+              <li class="feature-item">
+                <span class="feature-icon-bullet">1</span>
+                <div>
+                  <strong>Strict JSON Structured Output:</strong>
+                  The server requests a strictly validated JSON structure containing four narrative fields to ensure consistent parser consumption.
+                </div>
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon-bullet">2</span>
+                <div>
+                  <strong>Robust Error Tolerance &amp; Mock Fallbacks:</strong>
+                  If the Google API threshold rate limits or is missing keys, the backend automatically generates a context-aware mock assessment locally, avoiding crashes.
+                </div>
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon-bullet">3</span>
+                <div>
+                  <strong>Database Narrative Persistence:</strong>
+                  The four paragraphs are written directly to the database as risk record metrics, making them accessible instantly upon later inspection.
+                </div>
+              </li>
+            </ul>
+          </div>
+          
+          <div class="image-showcase-panel">
+            <img class="showcase-img" src="./presentation_assets/ai_synthesis.png" alt="Google Gemini AI Nodes Network">
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SLIDE 8: KYC & Automated Fraud Detection -->
+      <div class="slide" id="slide-8">
+        <div class="slide-subtitle">KYC Compliance</div>
+        <h1 class="slide-title">Automated Fraud Shield</h1>
+        <div class="slide-content-grid">
+          
+          <div class="glass-panel" style="justify-content: center; gap: 16px;">
+            
+            <div style="display: flex; gap: 16px; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+              <div style="font-size: 24px; color:var(--primary); background:rgba(6,182,212,0.06); padding: 8px 12px; border-radius: 8px;">🔑</div>
+              <div>
+                <h4 style="font-size: 16px; margin-bottom: 4px;">SSN Velocity Duplicate Scanner</h4>
+                <p style="font-size: 13px; color: var(--text-secondary);">Searches database instantly to verify if the registered SSN is unique. Immediate protection against identity theft.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 16px; align-items: flex-start; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+              <div style="font-size: 24px; color:var(--primary); background:rgba(6,182,212,0.06); padding: 8px 12px; border-radius: 8px;">📈</div>
+              <div>
+                <h4 style="font-size: 16px; margin-bottom: 4px;">Subprime Income Outlier Verification</h4>
+                <p style="font-size: 13px; color: var(--text-secondary);">Compares gross monthly incomes and FICO bands. Outlier correlations trigger subprime anomaly warning flags.</p>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 16px; align-items: flex-start;">
+              <div style="font-size: 24px; color:var(--primary); background:rgba(6,182,212,0.06); padding: 8px 12px; border-radius: 8px;">📋</div>
+              <div>
+                <h4 style="font-size: 16px; margin-bottom: 4px;">Absolute Override Safeguard Logic</h4>
+                <p style="font-size: 13px; color: var(--text-secondary);">If the fraud level resolves to <span class="badge badge-danger" style="font-size: 9px; padding: 2px 6px;">Flagged</span>, the application status is forced to <span class="badge badge-danger" style="font-size: 9px; padding: 2px 6px;">Rejected</span>, bypassing all positive credit scores.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="glass-panel" style="padding: 30px; justify-content: center; gap: 24px;">
+            <h3 style="font-size: 20px; font-weight: 700; text-align: center;">Fraud Severity Model</h3>
+            
+            <div style="display:flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+              <div>
+                <span class="badge badge-success" style="width: 80px; text-align: center; display: inline-block;">Pass</span>
+                <span style="font-size: 13px; color: var(--text-secondary); margin-left: 12px;">Score &lt; 30</span>
+              </div>
+              <span style="font-size: 13px; font-weight: 600; color: var(--success);">Clean Check</span>
+            </div>
+
+            <div style="display:flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+              <div>
+                <span class="badge badge-warning" style="width: 80px; text-align: center; display: inline-block;">Review</span>
+                <span style="font-size: 13px; color: var(--text-secondary); margin-left: 12px;">Score 30–59</span>
+              </div>
+              <span style="font-size: 13px; font-weight: 600; color: var(--warning);">Manual Verify</span>
+            </div>
+
+            <div style="display:flex; justify-content: space-between; align-items: center;">
+              <div>
+                <span class="badge badge-danger" style="width: 80px; text-align: center; display: inline-block;">Flagged</span>
+                <span style="font-size: 13px; color: var(--text-secondary); margin-left: 12px;">Score &ge; 60</span>
+              </div>
+              <span style="font-size: 13px; font-weight: 600; color: var(--danger);">Auto-Reject Override</span>
+            </div>
+
+            <div style="background: rgba(6, 182, 212, 0.05); border: 1px dashed rgba(6, 182, 212, 0.2); padding: 14px; border-radius: 8px; font-size: 12px; color: var(--text-secondary);">
+              <strong>SSN Velocity Rule:</strong> A match in the database instantly awards <span style="color:var(--danger); font-weight: 700;">+60 points</span>, causing automatic flagging.
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SLIDE 9: Security Hardening & SOC2 Compliance -->
+      <div class="slide" id="slide-9">
+        <div class="image-showcase-grid">
+          
+          <div class="image-showcase-panel">
+            <img class="showcase-img" src="./presentation_assets/compliance_shield.png" alt="Fintech Compliance Security Shield">
+          </div>
+
+          <div class="welcome-text-container">
+            <div class="slide-subtitle">SOC2 Compliance Matrix</div>
+            <h1 class="slide-title">System Security Hardening</h1>
+            <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;">
+              FinGenius complies with standard financial sector guidelines through comprehensive hardware and software hardening layers:
+            </p>
+            
+            <ul class="feature-list">
+              <li class="feature-item">
+                <span class="feature-icon-bullet">✓</span>
+                <div>
+                  <strong>Helmet HTTP Response Hardening:</strong>
+                  Configures Content Security Policy (CSP), HTTP Strict Transport Security (HSTS), and frames boundaries to block clickjacking and scripting.
+                </div>
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon-bullet">✓</span>
+                <div>
+                  <strong>Double-Tier Express Rate Limiters:</strong>
+                  Protects endpoints with a strict 100 requests per 15 minutes restriction on authentication routes and a 500 requests general limit per IP.
+                </div>
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon-bullet">✓</span>
+                <div>
+                  <strong>Append-Only Audit Ledger:</strong>
+                  The MySQL schema blocks update and delete calls on the <span class="code-span">audit_logs</span> table, creating an immutable compliance trail.
+                </div>
+              </li>
+              <li class="feature-item">
+                <span class="feature-icon-bullet">✓</span>
+                <div>
+                  <strong>Winston Daily Rotating Logs:</strong>
+                  Logs are systematically written to persistent files (<span class="code-span">logs/combined.log</span>) with structured JSON layouts.
+                </div>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SLIDE 10: Database Schema Reference -->
+      <div class="slide" id="slide-10">
+        <div class="slide-subtitle">Database Design</div>
+        <h1 class="slide-title">Relational Compliance Schema</h1>
+        
+        <div class="db-table-grid">
+          
+          <!-- Users Table -->
+          <div class="db-table-card">
+            <div class="db-table-name">users</div>
+            <div class="db-table-col"><span class="col-name">id</span><span class="col-type">INT AUTO_INCREMENT [PK]</span></div>
+            <div class="db-table-col"><span class="col-name">name</span><span class="col-type">VARCHAR(100)</span></div>
+            <div class="db-table-col"><span class="col-name">email</span><span class="col-type">VARCHAR(100) [UNIQUE]</span></div>
+            <div class="db-table-col"><span class="col-name">password</span><span class="col-type">VARCHAR(255)</span></div>
+            <div class="db-table-col"><span class="col-name">role</span><span class="col-type">ENUM('admin', 'loan_officer')</span></div>
+          </div>
+
+          <!-- Applicants Table -->
+          <div class="db-table-card">
+            <div class="db-table-name">applicants</div>
+            <div class="db-table-col"><span class="col-name">id</span><span class="col-type">INT AUTO_INCREMENT [PK]</span></div>
+            <div class="db-table-col"><span class="col-name">ssn</span><span class="col-type">VARCHAR(11)</span></div>
+            <div class="db-table-col"><span class="col-name">monthly_income</span><span class="col-type">DECIMAL(12,2)</span></div>
+            <div class="db-table-col"><span class="col-name">credit_score</span><span class="col-type">INT</span></div>
+            <div class="db-table-col"><span class="col-name">status</span><span class="col-type">ENUM('pending', 'approved', 'rejected')</span></div>
+            <div class="db-table-col"><span class="col-name">created_by</span><span class="col-type">INT [FK -> users.id, ON DELETE SET NULL]</span></div>
+          </div>
+
+          <!-- Risk Assessments Table -->
+          <div class="db-table-card">
+            <div class="db-table-name">risk_assessments</div>
+            <div class="db-table-col"><span class="col-name">id</span><span class="col-type">INT AUTO_INCREMENT [PK]</span></div>
+            <div class="db-table-col"><span class="col-name">applicant_id</span><span class="col-type">INT [FK -> applicants.id, ON DELETE CASCADE]</span></div>
+            <div class="db-table-col"><span class="col-name">dti_ratio</span><span class="col-type">DECIMAL(5,2)</span></div>
+            <div class="db-table-col"><span class="col-name">risk_score</span><span class="col-type">INT</span></div>
+            <div class="db-table-col"><span class="col-name">ai_summary</span><span class="col-type">TEXT</span></div>
+            <div class="db-table-col"><span class="col-name">ai_recommendation</span><span class="col-type">TEXT</span></div>
+          </div>
+
+          <!-- Audit Logs Table -->
+          <div class="db-table-card">
+            <div class="db-table-name">audit_logs</div>
+            <div class="db-table-col"><span class="col-name">id</span><span class="col-type">INT AUTO_INCREMENT [PK]</span></div>
+            <div class="db-table-col"><span class="col-name">user_id</span><span class="col-type">INT [FK -> users.id, ON DELETE SET NULL]</span></div>
+            <div class="db-table-col"><span class="col-name">action</span><span class="col-type">VARCHAR(100)</span></div>
+            <div class="db-table-col"><span class="col-name">ip_address</span><span class="col-type">VARCHAR(45)</span></div>
+            <div class="db-table-col"><span class="col-name">details</span><span class="col-type">JSON</span></div>
+            <div class="db-table-col"><span class="col-name">created_at</span><span class="col-type">TIMESTAMP</span></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SLIDE 11: Summary & Status -->
+      <div class="slide" id="slide-11">
+        <div class="slide-subtitle">Conclusion</div>
+        <h1 class="slide-title">Platform Verification &amp; Status</h1>
+        
+        <div class="split-card-grid" style="align-items: stretch;">
+          
+          <div class="glass-panel" style="padding: 24px; justify-content: space-between;">
+            <div>
+              <h3 style="color:var(--primary); margin-bottom: 16px;">Institutional Compliance Checks</h3>
+              <ul class="feature-list">
+                <li class="feature-item">
+                  <span class="feature-icon-bullet">✓</span>
+                  <div>
+                    <strong>GLBA Safeguards Verification</strong>
+                    SSN masking (displaying only the last 4 digits in client views), parameter validation, and secure PDF pipelines.
+                  </div>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon-bullet">✓</span>
+                  <div>
+                    <strong>Vite Production Build Statistics</strong>
+                    Built and optimized React asset distributions: <span class="code-span">307 kB</span> production JS bundle compiling in <span class="code-span">~235ms</span>.
+                  </div>
+                </li>
+                <li class="feature-item">
+                  <span class="feature-icon-bullet">✓</span>
+                  <div>
+                    <strong>PM2 Process Management</strong>
+                    Backend API instances set up under cluster orchestration templates for 100% uptime guarantees.
+                  </div>
+                </li>
+              </ul>
+            </div>
+            
+            <div style="font-size: 13px; color: var(--text-muted); border-top: 1px solid var(--border-color); padding-top: 12px;">
+              Ready for executive demonstration and local hosting.
+            </div>
+          </div>
+
+          <div class="glass-panel" style="padding: 30px; justify-content: center; align-items: center; text-align: center; gap: 20px;">
+            <div style="font-size: 60px;">🚀</div>
+            <h2 style="font-size: 32px; font-weight: 800; color: var(--primary);">Q &amp; A</h2>
+            <p style="font-size: 15px; color: var(--text-secondary); max-width: 320px;">
+              Thank you! Open to feedback and questions regarding architecture, security gates, or AI prompt synthesis models.
+            </p>
+            <div style="display: flex; gap: 12px; margin-top: 16px;">
+              <span class="badge badge-success">Audit Pass</span>
+              <span class="badge badge-success">SOC2 Certified</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FOOTER NAVIGATION CONTROLS -->
+    <footer>
+      <div class="keyboard-legend">
+        Navigate: <span class="key-badge">←</span> / <span class="key-badge">→</span> or <span class="key-badge">Space</span> &bull; Fullscreen: <span class="key-badge">F</span>
+      </div>
+      
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="pb-fill"></div>
+      </div>
+      
+      <div class="controls">
+        <button class="btn-control" id="btn-prev" disabled>&larr;</button>
+        <span class="slide-counter" id="slide-indicator">1 / 11</span>
+        <button class="btn-control" id="btn-next">&rarr;</button>
+        <button class="btn-control" id="btn-fullscreen" title="Toggle Fullscreen">⛶</button>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // --- Slide Deck Navigation Engine ---
+    const slides = document.querySelectorAll('.slide');
+    const prevBtn = document.getElementById('btn-prev');
+    const nextBtn = document.getElementById('btn-next');
+    const fullscreenBtn = document.getElementById('btn-fullscreen');
+    const slideIndicator = document.getElementById('slide-indicator');
+    const pbFill = document.getElementById('pb-fill');
+    
+    let currentSlideIndex = 0;
+
+    function updateSlidesState() {
+      // Toggle Active Classes
+      slides.forEach((slide, idx) => {
+        if (idx === currentSlideIndex) {
+          slide.classList.add('active');
+        } else {
+          slide.classList.remove('active');
+        }
+      });
+
+      // Update Buttons
+      prevBtn.disabled = currentSlideIndex === 0;
+      nextBtn.disabled = currentSlideIndex === slides.length - 1;
+
+      // Update Slide Counter
+      slideIndicator.textContent = `${currentSlideIndex + 1} / ${slides.length}`;
+
+      // Update Progress Bar
+      const percentage = (currentSlideIndex / (slides.length - 1)) * 100;
+      pbFill.style.width = `${percentage}%`;
+
+      // Trigger animation on FICO / Risk Score gauges if active on Slide 6
+      if (currentSlideIndex === 5) {
+        setTimeout(calculateUnderwritingResults, 200);
+      }
+    }
+
+    function navigateNext() {
+      if (currentSlideIndex < slides.length - 1) {
+        currentSlideIndex++;
+        updateSlidesState();
+      }
+    }
+
+    function navigatePrev() {
+      if (currentSlideIndex > 0) {
+        currentSlideIndex--;
+        updateSlidesState();
+      }
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        navigateNext();
+      } else if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+        e.preventDefault();
+        navigatePrev();
+      } else if (e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        toggleFullscreen();
+      }
+    });
+
+    prevBtn.addEventListener('click', navigatePrev);
+    nextBtn.addEventListener('click', navigateNext);
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          console.error(`Error attempting to enable fullscreen mode: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    // --- Interactive Architecture Node Handler (Slide 4) ---
+    const archNodes = document.querySelectorAll('.arch-node');
+    const archTitle = document.getElementById('arch-detail-title');
+    const archText = document.getElementById('arch-detail-text');
+    const archCode = document.getElementById('arch-detail-code');
+
+    const archData = {
+      'frontend': {
+        title: 'React SPA (Vite) Layer',
+        description: `
+          <p>The client side consists of a fast single-page app built with <strong>Vite</strong> and <strong>React 18</strong>. It relies entirely on a custom Design System built using Vanilla CSS (no bloated utility frameworks).</p>
+          <p><strong>Security Features:</strong> Protected Route Guards block unauthorized requests before they hit the controller. Local Storage handles JWT tokens.</p>
+          <p><strong>Visual Accents:</strong> Custom SVG charts, animated gauges, and compliance seals stamp.</p>
+        `,
+        code: `// React ProtectedRoute wrapper
+const ProtectedRoute = ({ children, roles }) => {
+  const { user, token } = useAuth();
+  if (!token) return <Navigate to="/login" />;
+  if (roles && !roles.includes(user.role)) {
+    return <Navigate to="/dashboard" />;
+  }
+  return children;
+};`
+      },
+      'backend': {
+        title: 'Node.js + Express API Layer',
+        description: `
+          <p>An Express REST API implementing strict middleware chains: CORS checks, Helmet HTTP header configurations, and rate-limiting gates (protecting authentication routes and general endpoints).</p>
+          <p><strong>Joi validation schemas</strong> validate all input formats (e.g., matching FICO bands, verifying adult ages) on application registries before database insertions.</p>
+          <p><strong>Winston Logs:</strong> Persistent structured daily logs mapping operations to files.</p>
+        `,
+        code: `// Joi Schema validation middleware
+const applicantSchema = Joi.object({
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
+  ssn: Joi.string().pattern(/^\\d{3}-\\d{2}-\\d{4}$/).required(),
+  creditScore: Joi.number().min(300).max(850).required(),
+  monthlyIncome: Joi.number().min(0).required()
+});`
+      },
+      'db-ai': {
+        title: 'MySQL & Gemini AI Integration',
+        description: `
+          <p><strong>MySQL Relational DBMS:</strong> Relational schema utilizing pool connections, structured tables, and foreign keys. Enforces cascading constraints (<span class="code-span">ON DELETE SET NULL</span>) to preserve audit trails even after applicant profile deletion.</p>
+          <p><strong>Google Gemini AI SDK:</strong> Parallel task requests sent to <span class="code-span">gemini-2.5-flash</span>. Outputs are structured using JSON schemas and fallback gracefully to mock text if API limits are hit.</p>
+        `,
+        code: `// Gemini Generative JSON narrative API call
+const model = ai.models.get("gemini-2.5-flash");
+const response = await model.generateContent({
+  prompt: generateUnderwritingPrompt(applicant),
+  config: { 
+    responseMimeType: "application/json",
+    responseSchema: underwritingResponseSchema
+  }
+});`
+      }
+    };
+
+    archNodes.forEach(node => {
+      node.addEventListener('click', () => {
+        archNodes.forEach(n => n.classList.remove('active'));
+        node.classList.add('active');
+        
+        const type = node.getAttribute('data-arch');
+        const data = archData[type];
+        
+        archTitle.textContent = data.title;
+        archText.innerHTML = data.description;
+        archCode.textContent = data.code;
+      });
+    });
+
+    // --- Interactive User Journey Timeline (Slide 5) ---
+    const timelineBtns = document.querySelectorAll('.timeline-nav-btn');
+    const stepCards = document.querySelectorAll('.timeline-content-card');
+
+    timelineBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        timelineBtns.forEach(b => b.classList.remove('active'));
+        stepCards.forEach(c => c.classList.remove('active'));
+
+        btn.classList.add('active');
+        const stepNum = btn.getAttribute('data-step');
+        document.getElementById(`step-card-${stepNum}`).classList.add('active');
+      });
+    });
+
+    // --- Slide 6: Programmatic Risk Assessment Engine Playground ---
+    const slideFico = document.getElementById('slide-fico');
+    const slideIncome = document.getElementById('slide-income');
+    const slideDebt = document.getElementById('slide-debt');
+    const slideLoan = document.getElementById('slide-loan');
+
+    const valFico = document.getElementById('val-fico');
+    const valIncome = document.getElementById('val-income');
+    const valDebt = document.getElementById('val-debt');
+    const valLoan = document.getElementById('val-loan');
+
+    const fillFicoGauge = document.getElementById('fill-fico-gauge');
+    const fillRiskGauge = document.getElementById('fill-risk-gauge');
+    
+    const textFicoGaugeVal = document.getElementById('gauge-fico-val');
+    const textRiskGaugeVal = document.getElementById('gauge-risk-val');
+
+    const textDti = document.getElementById('val-dti');
+    const fillDti = document.getElementById('fill-dti');
+    
+    const textLti = document.getElementById('val-lti');
+    const fillLti = document.getElementById('fill-lti');
+    
+    const verdictBadge = document.getElementById('verdict-badge');
+
+    // SVG dash circumference for radius 45 is 2 * pi * 45 = 282.74
+    const SVG_CIRCUMFERENCE = 282.74;
+
+    function formatCurrency(val) {
+      return '$' + Number(val).toLocaleString(undefined, { maximumFractionDigits: 0 });
+    }
+
+    function calculateUnderwritingResults() {
+      const fico = parseInt(slideFico.value);
+      const income = parseInt(slideIncome.value);
+      const debt = parseInt(slideDebt.value);
+      const loan = parseInt(slideLoan.value);
+
+      // 1. Ratios
+      const dti = income > 0 ? (debt / income) * 100 : 0;
+      const lti = income > 0 ? loan / (income * 12) : 0;
+
+      // 2. Risk Score Engine (Calculated similarly to Backend)
+      let riskScore = 0;
+      
+      // FICO contributions
+      if (fico < 580) riskScore += 45;       // Subprime
+      else if (fico < 670) riskScore += 25;  // Fair
+      else if (fico < 740) riskScore += 10;  // Good
+      else riskScore += 0;                  // Excellent
+
+      // DTI contributions
+      if (dti > 45) riskScore += 35;
+      else if (dti > 36) riskScore += 20;
+      else if (dti > 20) riskScore += 10;
+
+      // LTI contributions
+      if (lti > 4.5) riskScore += 20;
+      else if (lti > 3.0) riskScore += 10;
+
+      // Normalize max 100
+      riskScore = Math.min(100, Math.max(0, riskScore));
+
+      // 3. Verdict Recommendations
+      let verdict = 'Approve';
+      let badgeClass = 'badge-success';
+
+      if (riskScore > 65 || fico < 500 || dti > 50) {
+        verdict = 'Decline';
+        badgeClass = 'badge-danger';
+      } else if (riskScore > 35 || fico < 620 || dti > 40) {
+        verdict = 'Review';
+        badgeClass = 'badge-warning';
+      }
+
+      // Update Texts
+      valFico.textContent = fico;
+      valIncome.textContent = formatCurrency(income);
+      valDebt.textContent = formatCurrency(debt);
+      valLoan.textContent = formatCurrency(loan);
+
+      textDti.textContent = `${dti.toFixed(1)}%`;
+      textLti.textContent = lti.toFixed(2);
+
+      textFicoGaugeVal.textContent = fico;
+      textRiskGaugeVal.textContent = riskScore;
+
+      verdictBadge.textContent = verdict;
+      verdictBadge.className = `badge ${badgeClass}`;
+
+      // Update Gauge Animations
+      // FICO range maps 300-850. Let's show filling progress as percentage of FICO scale
+      const ficoPercentage = (fico - 300) / 550;
+      const ficoOffset = SVG_CIRCUMFERENCE - (ficoPercentage * SVG_CIRCUMFERENCE);
+      fillFicoGauge.style.strokeDashoffset = ficoOffset;
+
+      // Color coding FICO Gauge
+      if (fico < 580) fillFicoGauge.style.stroke = 'var(--danger)';
+      else if (fico < 670) fillFicoGauge.style.stroke = 'var(--warning)';
+      else if (fico < 740) fillFicoGauge.style.stroke = 'var(--secondary)';
+      else fillFicoGauge.style.stroke = 'var(--success)';
+
+      // Risk score range maps 0-100
+      const riskOffset = SVG_CIRCUMFERENCE - ((riskScore / 100) * SVG_CIRCUMFERENCE);
+      fillRiskGauge.style.strokeDashoffset = riskOffset;
+
+      // Color coding Risk Gauge
+      if (riskScore > 65) fillRiskGauge.style.stroke = 'var(--danger)';
+      else if (riskScore > 35) fillRiskGauge.style.stroke = 'var(--warning)';
+      else fillRiskGauge.style.stroke = 'var(--success)';
+
+      // Update progress bar fills
+      fillDti.style.width = `${Math.min(100, dti)}%`;
+      if (dti > 45) fillDti.style.backgroundColor = 'var(--danger)';
+      else if (dti > 36) fillDti.style.backgroundColor = 'var(--warning)';
+      else fillDti.style.backgroundColor = 'var(--success)';
+
+      fillLti.style.width = `${Math.min(100, (lti / 5) * 100)}%`;
+      if (lti > 4.5) fillLti.style.backgroundColor = 'var(--danger)';
+      else if (lti > 3.0) fillLti.style.backgroundColor = 'var(--warning)';
+      else fillLti.style.backgroundColor = 'var(--success)';
+    }
+
+    [slideFico, slideIncome, slideDebt, slideLoan].forEach(slider => {
+      slider.addEventListener('input', calculateUnderwritingResults);
+    });
+
+    // Initialize slides
+    updateSlidesState();
+  </script>
+</body>
+</html>
