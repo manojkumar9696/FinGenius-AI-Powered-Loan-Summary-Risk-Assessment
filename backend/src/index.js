@@ -19,6 +19,7 @@ const riskRoutes = require('./routes/risk.routes');
 const dashboardRoutes = require('./routes/dashboard.routes');
 const auditRoutes = require('./routes/audit.routes');
 const notesRoutes = require('./routes/notes.routes');
+const chatRoutes = require('./routes/chat.routes');
 
 // Production Hardening Imports
 const helmet = require('helmet');
@@ -64,6 +65,8 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/audit-logs', auditRoutes);
 // Applicant notes and comments timeline endpoints
 app.use('/api/notes', notesRoutes);
+// Underwriter chatbot helper endpoint
+app.use('/api/chat', chatRoutes);
 
 // 5. Handle Unhandled Routes (404 Resource Not Found)
 app.use((req, res, next) => {

@@ -162,6 +162,14 @@ export const api = {
     downloadLink.click();
     downloadLink.remove();
     window.URL.revokeObjectURL(blobUrl);
+  },
+
+  // 9. Conversational Underwriting AI Chatbot Assistant
+  chat: async (message, history = []) => {
+    return request('/chat', {
+      method: 'POST',
+      body: JSON.stringify({ message, history })
+    });
   }
 };
 
